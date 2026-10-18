@@ -10,6 +10,19 @@ Method: [docs/method.md](docs/method.md); products and phase rules: [docs/produc
 The repository bundles the pooled 1982-2016 Cloud_cci counts of the 12 sites (67 MB under `data/cci/`), so the main
 figure is reproducible without any download.
 
+## Example figures
+
+ITF change at the six point sources and their control boxes, Cloud_cci 1982-2016. Top: centre (0-10 km) minus
+background (70-100 km) ITF in percentage points for the year and each season, in two CTT ranges. Bottom: yearly ITF
+versus CTT at the centre (red) and in the background (blue). Produced by the quick start below.
+
+![ITF change at all sites](docs/img/sites_change_1982-2016_cci.png)
+
+ITF maps of the 2 x 2 degree box around Moscow, Cloud_cci 1982-2016, for three CTT ranges (columns) and the
+year, DJF and MAM (rows). Solid ring: 10 km; dashed rings: 70 and 100 km. Each map has its own colour range.
+
+![ITF maps around Moscow](docs/img/maps_moscow_1982-2016_cci.png)
+
 ## Layout
 
 ```
