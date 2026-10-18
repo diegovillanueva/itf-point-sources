@@ -126,4 +126,4 @@ The CTT axis `cosp_ht` holds the 40 bin centres (-91.5 ... 25.5 degC) with bound
 BSD 3-Clause (see `LICENSE`). Please cite the repository (`CITATION.cff`) and the data providers: ESA Cloud_cci v3
 (Stengel et al., 2020, https://doi.org/10.5194/essd-12-41-2020), EUMETSAT CM SAF CLARA-A3 (Karlsson et al., 2023,
 https://doi.org/10.5194/essd-15-4901-2023) and NASA MODIS Aqua MYD06_L2 collection 6.1 (Platnick et al., 2017,
-https://doi.org/10.5067/MODIS/MYD06_L2.061). A paper reference will be added once available.
+https://doi.org/10.5067/MODIS/MYD06_L2.061).

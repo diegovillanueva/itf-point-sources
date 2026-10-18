@@ -6,11 +6,8 @@ authors:
   - family-names: Villanueva
     given-names: Diego
     affiliation: "Institute for Atmospheric and Climate Science, ETH Zurich"
-version: 1.0.0
-date-released: 2026-10-14
 license: BSD-3-Clause
 repository-code: "https://github.com/diegovillanueva/itf-point-sources"
-doi: 10.5281/zenodo.0000000
 keywords:
   - cloud phase
   - ice nucleation
