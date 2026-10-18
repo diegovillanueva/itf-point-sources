@@ -12,11 +12,14 @@ figure is reproducible without any download.
 
 ## Example figures
 
+All summary figures (including cloud occurrence and COT versions) and the commands that create them:
+[summary_cci_figures/](summary_cci_figures/README.md).
+
 ITF change at the six point sources and their control boxes, Cloud_cci 1982-2016. Top: centre (0-10 km) minus
 background (70-100 km) ITF in percentage points for the year and each season, in two CTT ranges. Bottom: yearly ITF
 versus CTT at the centre (red) and in the background (blue). Produced by the quick start below.
 
-![ITF change at all sites](docs/img/sites_change_1982-2016_cci.png)
+![ITF change at all sites](summary_cci_figures/itf_change_sites_1982-2016_cci_season.png)
 
 Created with (writes `figs/cci_1982-2016/itf_change_sites_1982-2016_cci_season.png`):
 
@@ -27,7 +30,7 @@ bash scripts/run_sites.sh --root data --lane cci --year 1982-2016 --out-dir figs
 ITF maps of the 2 x 2 degree box around Moscow, Cloud_cci 1982-2016, for three CTT ranges (columns) and the
 year, DJF and MAM (rows). Solid ring: 10 km; dashed rings: 70 and 100 km. Each map has its own colour range.
 
-![ITF maps around Moscow](docs/img/maps_moscow_1982-2016_cci.png)
+![ITF maps around Moscow](summary_cci_figures/itf_maps_moscow_1982-2016_cci.png)
 
 Created with (writes `figs/cci_1982-2016/itf_maps_moscow_1982-2016_cci.png`; the DJF and MAM rows come from the
 default `--seasons DJF MAM`):
