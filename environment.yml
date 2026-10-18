@@ -1,0 +1,16 @@
+# conda env create -f environment.yml && conda activate itf
+name: itf
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.9
+  - numpy
+  - netcdf4
+  - matplotlib
+  - cartopy        # plot_itf_maps.py
+  - pyhdf          # MODIS MYD06_L2 granules (lanes modis, modis5)
+  - cdo            # scripts/cci_select.sh
+  - nco            # ncdump check in scripts/cci_download.sh
+  - wget
+  - curl
+  - pytest

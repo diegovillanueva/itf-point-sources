@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software or the bundled data, please cite it as below."
+title: "itf-point-sources: ice-topped cloud fraction versus cloud-top temperature around anthropogenic point sources"
+type: software
+authors:
+  - family-names: Villanueva
+    given-names: Diego
+    affiliation: "Institute for Atmospheric and Climate Science, ETH Zurich"
+version: 1.0.0
+date-released: 2026-10-14
+license: BSD-3-Clause
+repository-code: "https://github.com/diegovillanueva/itf-point-sources"
+doi: 10.5281/zenodo.0000000
+keywords:
+  - cloud phase
+  - ice nucleation
+  - aerosol-cloud interactions
+  - Cloud_cci
+  - CLARA-A3
+  - MODIS

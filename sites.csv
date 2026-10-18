@@ -1,0 +1,13 @@
+name,label,lat,lon,type,control_of
+moscow,Moscow,55.75,37.62,city,
+moscow_ctl,"Moscow control (195 km, 247°)",55.0641,34.7567,control,moscow
+rouyn,Rouyn-Noranda (copper smelter),48.2530,-79.0163,copper smelter,
+rouyn_ctl,"Rouyn-Noranda control (192 km, 5°)",49.9756,-78.7817,control,rouyn
+regina,Regina (oil refinery),50.4849,-104.5763,oil refinery,
+regina_ctl,"Regina control (163 km, 277°)",50.6637,-106.8590,control,regina
+cherepovets,Cherepovets (steel plant),59.1442,37.8482,steel plant,
+cherepovets_ctl,"Cherepovets control (181 km, 337°)",60.6465,36.6321,control,cherepovets
+fokino,Fokino (cement plant),53.4445,34.4092,cement plant,
+fokino_ctl,"Fokino control (153 km, 212°)",52.2790,33.1784,control,fokino
+volsk,Volsk (cement plant),52.0517,47.4355,cement plant,
+volsk_ctl,"Volsk control (194 km, 16°)",53.7340,48.1955,control,volsk

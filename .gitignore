@@ -1,0 +1,10 @@
+config.env
+out/
+figs/
+data/*
+!data/cci/
+*.part
+*.part.nc
+__pycache__/
+.pytest_cache/
+*.pyc
