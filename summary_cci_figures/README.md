@@ -9,6 +9,9 @@ from the repository root; they write to `figs/cci_1982-2016/` (git-ignored) and 
 | `itf_change_sites_1982-2016_cci_season.png` | ITF change (centre minus background, percentage points) for the year and each season in two CTT ranges; ITF versus CTT per site |
 | `itf_change_sites_1982-2016_cci_occ.png` | cloud occurrence (samples per cell) change per CTT range and occurrence versus CTT per site, yearly |
 | `itf_change_sites_1982-2016_cci_cot.png` | mean cloud optical thickness change per CTT range and COT versus CTT per site, yearly (daytime retrievals) |
+| `itf_distance_3K_1982-2016_cci.png` | ITF versus distance from the site (5 km rings), one line per 3 K CTT bin, minus the bin's own 70-100 km value (percentage points), one panel per box |
+| `occ_distance_3K_1982-2016_cci.png` | as above for cloud occurrence, relative to the 70-100 km ring (%) |
+| `cot_distance_3K_1982-2016_cci.png` | as above for mean COT, relative to the 70-100 km ring (%) |
 | `itf_maps_moscow_1982-2016_cci.png` | ITF maps of the Moscow box for three CTT ranges, year, DJF and MAM |
 
 ## Commands
@@ -22,6 +25,9 @@ python -m itf.plot_itf_change_sites --fig-dir figs/cci_1982-2016 --year 1982-201
 
 # 3. Moscow maps (rows DJF and MAM from the default --seasons DJF MAM)
 python -m itf.plot_itf_maps --root data --box moscow --year 1982-2016 --months year --lanes cci --out-dir figs/cci_1982-2016
+
+# 4. ITF, occurrence and COT versus distance (also writes 12 K versions and itf_distance_1982-2016_cci.csv)
+python -m itf.plot_itf_distance --root data --lane cci --year 1982-2016 --out-dir figs/cci_1982-2016
 ```
 
 Each figure is written with a `.md` file of the same name describing its panels. Use `--box <site>` (names in
@@ -32,4 +38,7 @@ Each figure is written with a `.md` file of the same name describing its panels.
 ![ITF change, seasons](itf_change_sites_1982-2016_cci_season.png)
 ![Cloud occurrence change](itf_change_sites_1982-2016_cci_occ.png)
 ![COT change](itf_change_sites_1982-2016_cci_cot.png)
+![ITF vs distance](itf_distance_3K_1982-2016_cci.png)
+![Cloud occurrence vs distance](occ_distance_3K_1982-2016_cci.png)
+![COT vs distance](cot_distance_3K_1982-2016_cci.png)
 ![ITF maps, Moscow](itf_maps_moscow_1982-2016_cci.png)

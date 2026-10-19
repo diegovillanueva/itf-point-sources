@@ -12,7 +12,7 @@ figure is reproducible without any download.
 
 ## Example figures
 
-All summary figures (including cloud occurrence and COT versions) and the commands that create them:
+All summary figures (including cloud occurrence and COT versions and profiles versus distance) and the commands that create them:
 [summary_cci_figures/](summary_cci_figures/README.md).
 
 ITF change at the six point sources and their control boxes, Cloud_cci 1982-2016. Top: centre (0-10 km) minus
@@ -44,7 +44,7 @@ python -m itf.plot_itf_maps --root data --box moscow --year 1982-2016 --months y
 ```
 sites.csv            site table (name, label, lat, lon, type, control_of); single source of truth
 itf/                 python package: ctt_bins, modis_geo, sites, itf_day, itf_agg, itf_pool, index_modis,
-                     plot_itf_change, plot_itf_change_sites, plot_itf_maps
+                     plot_itf_change, plot_itf_change_sites, plot_itf_maps, plot_itf_distance
 scripts/             bash drivers: cci_download, cci_select, clara_stage, modis_download, run_itf, run_year, run_sites
 config.env.example   paths and resources (copy to config.env); config.sh applies the defaults
 data/cci/<site>/     bundled counts: 1982-2016.nc (all years summed) and 1982-2016/MM.nc (per calendar month)
