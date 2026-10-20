@@ -164,7 +164,7 @@ def main() -> None:
             ycot = np.where(cot[:, 1] > 0, cot[:, 0] / cot[:, 1], np.nan)   # pixel-weighted mean COT per bin, whole year
         pf = a.out_dir / f"itf_profile_{a.box}_{a.year}_{lanes[0]}.csv"
         with pf.open("w", newline="") as fh:
-            wr = csv.writer(fh)
+            wr = csv.writer(fh, lineterminator="\n")
             wr.writerow(["ctt_C", "itf_centre", "itf_background", "occ_centre", "occ_background", "cot_centre", "cot_background"])
             for k, c in enumerate(PROFILE_C):
                 wr.writerow([c, f"{ycen[k]:.4f}", f"{ybg[k]:.4f}", f"{cnt[0, k]:.2f}", f"{cnt[1, k]:.2f}", f"{ycot[0, k]:.3f}", f"{ycot[1, k]:.3f}"])
@@ -240,7 +240,7 @@ def main() -> None:
     ax.set_title(f"ITF change at {site.label}: centre 0–10 km vs background 70–100 km (0.05° cells)", fontsize=8, pad=14)
     csv_path = a.out_dir / f"itf_change_{a.box}_{a.year}{tag}.csv"
     with csv_path.open("w", newline="") as fh:
-        wr = csv.writer(fh)
+        wr = csv.writer(fh, lineterminator="\n")
         wr.writerow(["lane", "month", "ctt_range_C", "itf_centre_median", "itf_background_median", "itf_change_pct", "n_cells_centre", "n_cells_background", "itf_change_norm_pct", "bg_supercooled_pct", "itf_diff_pp"])
         wr.writerows(rows)
     out = a.out_dir / f"itf_change_{a.box}_{a.year}{tag}.png"

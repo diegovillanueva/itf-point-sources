@@ -40,7 +40,7 @@ bash scripts/run_year.sh --product cci --site "${site}" --year 2008 --months "01
 test -s "${OUT_ROOT}/cci/${site}/2008/01.nc" && test -s "${OUT_ROOT}/cci/${site}/2008.nc"
 "${PYTHON}" -m itf.plot_itf_change --root "${OUT_ROOT}" --box "${site}" --year 2008 --lanes cci --out-dir "${work}/figs" >/dev/null
 csv="${work}/figs/itf_change_${site}_2008_cci.csv"
-row="$(grep '^cci,2008-01,-12..-24,' "${csv}" | tr -d '\r')"   # csv rows end in CRLF
+row="$(grep '^cci,2008-01,-12..-24,' "${csv}")"
 echo "${row}"
 IFS=, read -r _ _ _ cen bg chg ncen nbg norm _ diff <<<"${row}"
 [[ "${cen}" == 1.000 && "${bg}" == 0.333 && "${chg}" == 200.0 && "${norm}" == 100.0 && "${diff}" == 66.7 ]] || { echo "unexpected ITF change row: ${row}" >&2; exit 1; }

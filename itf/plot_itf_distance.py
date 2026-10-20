@@ -4,7 +4,7 @@
 Usage: python -m itf.plot_itf_distance --root data --year 1982-2016 --out-dir <dir> [--lane cci] [--sites moscow moscow_ctl] [--ring-km 5] [--variables itf occ cot]
 Per distance ring (default 5 km wide, 0-100 km) and CTT bin: ITF = sum n_ice / sum (n_ice + n_liq + n_mix) over all cells of the ring
 (occurrence-weighted mean of the pooled counts in <root>/<lane>/<site>/<year>.nc); occ = cloud samples per cell; COT = sum cot_sum / sum n_cot.
-The 2deg x 2deg box reaches only about 60-75 km east/west of the site, so rings beyond that are north and south arcs only.
+The 2° x 2° box reaches only about 60-75 km east/west of the site, so rings beyond that are north and south arcs only.
 Writes itf_distance_<year>_<lane>.csv (long format) and per variable <var>_distance_12K_<year>_<lane>.png and <var>_distance_3K_<year>_<lane>.png with .md captions.
 """
 from __future__ import annotations
@@ -17,30 +17,29 @@ import matplotlib.pyplot as plt
 import netCDF4 as nc
 import numpy as np
 
-from .plot_itf_change import LABEL, TARGETS
+from .plot_itf_change import LABEL, TARGETS, distance_km
 from .sites import SITES, Site
 
-BINS_3K = [(c - 1.5, c + 1.5) for c in np.arange(-1.5, -36, -3.0)]   # native 3 K bins 0..-36 degC
+BINS_3K = [(c - 1.5, c + 1.5) for c in np.arange(-1.5, -36, -3.0)]   # native 3 K bins 0..-36 °C
 BG_KM = (70.0, 100.0)
 
 
 VARS = {   # variable: (axis label, change label, change in pp of ITF (True) or relative [%] (False))
     "itf": ("ITF", "ITF - ITF(70-100 km) [pp]", True),
-    "occ": ("cloud samples per 0.05deg cell", "relative to 70-100 km [%]", False),
+    "occ": ("cloud samples per 0.05° cell", "relative to 70-100 km [%]", False),
     "cot": ("mean COT", "relative to 70-100 km [%]", False),
 }
 
 
 def ring_stats(path: Path, site: Site, ctt: tuple[float, float], edges: np.ndarray) -> dict[str, np.ndarray]:
-    """ITF, cloud samples per cell, mean COT, cloud samples and cell count per distance ring for one CTT range (lo, hi) in degC."""
+    """ITF, cloud samples per cell, mean COT, cloud samples and cell count per distance ring for one CTT range (lo, hi) in °C."""
     with nc.Dataset(path) as d:
         c = np.asarray(d["cosp_ht"][:], float)
         k = np.where((c - 1.5 >= ctt[0] - 1e-6) & (c + 1.5 <= ctt[1] + 1e-6))[0]
         cnt = {n: np.ma.filled(d[n][:, :, :, k], 0).sum((0, 3)).astype(float)
                for n in ("n_ice", "n_liq", "n_mix", "n_cot", "cot_sum") if n in d.variables}
         lat, lon = np.asarray(d["lat"][:]), np.asarray(d["lon"][:])
-    la, lo = np.meshgrid(lat, lon, indexing="ij")
-    dist = 111.2 * np.hypot(la - site.lat, (lo - site.lon) * np.cos(np.radians(site.lat)))
+    dist = distance_km(lat, lon, site)
     n = sum(cnt[v] for v in ("n_ice", "n_liq", "n_mix") if v in cnt)
     r = np.digitize(dist, edges) - 1
     ring = lambda a: np.array([a[r == i].sum() for i in range(len(edges) - 1)])  # noqa: E731
@@ -92,7 +91,7 @@ def main() -> None:
 def plot_var(v: str, a: argparse.Namespace, sites: list[str], res: dict, bg: dict, mid: np.ndarray) -> list[Path]:
     """12 K and 3 K figures of one variable; returns the written paths."""
     ylab, dlab, pp = VARS[v]
-    name = {"itf": "ITF", "occ": "cloud occurrence", "cot": "COT"}[v]
+    name = {"itf": "ITF", "occ": f"cloud occurrence", "cot": "COT"}[v]
     plt.rcParams.update({"font.family": "sans-serif", "font.size": 7})
     pairs = sorted({s.removesuffix("_ctl") for s in sites}, key=list(SITES).index)
     col = dict(zip(pairs, plt.get_cmap("tab10").colors))
@@ -105,7 +104,7 @@ def plot_var(v: str, a: argparse.Namespace, sites: list[str], res: dict, bg: dic
             axs[0, j].plot(mid, y, ls, color=col[s.removesuffix("_ctl")], lw=1.0, label=lab if j == 0 else None)
             with np.errstate(invalid="ignore", divide="ignore"):
                 axs[1, j].plot(mid, 100 * (y - y0) if pp else 100 * (y / y0 - 1), ls, color=col[s.removesuffix("_ctl")], lw=1.0)
-        axs[0, j].set_title(f"CTT {b[1]:.0f}..{b[0]:.0f} degC", fontsize=8)
+        axs[0, j].set_title(f"CTT {b[1]:.0f}..{b[0]:.0f} °C", fontsize=8)
         axs[1, j].axhline(0, color="0.5", lw=0.5)
         axs[1, j].set_xlabel("distance from centre [km]")
         for ax in axs[:, j]:
@@ -141,20 +140,20 @@ def plot_var(v: str, a: argparse.Namespace, sites: list[str], res: dict, bg: dic
     for ax in axs.flat[len(sites):]:
         ax.set_visible(False)
     sm = plt.cm.ScalarMappable(cmap=cm, norm=plt.Normalize(BINS_3K[-1][0] + 1.5, BINS_3K[0][0] + 1.5))
-    fig.colorbar(sm, ax=axs, shrink=0.5, label="CTT bin centre [degC]")
+    fig.colorbar(sm, ax=axs, shrink=0.5, label="CTT bin centre [°C]")
     fig.suptitle(f"{name} vs distance relative to the 70-100 km ring, per 3 K CTT bin, {LABEL.get(a.lane, a.lane)} {a.year}, {a.ring_km:.0f} km rings", fontsize=8)
     out3 = a.out_dir / f"{v}_distance_3K_{a.year}_{a.lane}.png"
     fig.savefig(out3, dpi=200, bbox_inches="tight")
     plt.close(fig)
 
-    what = {"itf": "ITF = sum n_ice / sum (n_ice + n_liq + n_mix) over all 0.05deg cells of the ring (occurrence-weighted)",
-            "occ": "cloud occurrence = phase-determined cloud samples summed over 1982-2016, per 0.05deg cell of the ring",
-            "cot": "mean cloud optical thickness = sum cot_sum / sum n_cot over all 0.05deg cells of the ring (daytime retrievals)"}[v]
+    what = {"itf": "ITF = sum n_ice / sum (n_ice + n_liq + n_mix) over all 0.05° cells of the ring (occurrence-weighted)",
+            "occ": f"cloud occurrence = phase-determined cloud samples summed over {a.year}, per 0.05° cell of the ring",
+            "cot": "mean cloud optical thickness = sum cot_sum / sum n_cot over all 0.05° cells of the ring (daytime retrievals)"}[v]
     base = (f"Mean {name} versus distance from the site centre ({LABEL.get(a.lane, a.lane)}, {a.year}), {a.ring_km:.0f} km rings: {what}. "
-            "Grey band: 70-100 km background ring; the 2deg x 2deg box reaches only about 60-75 km east/west, so rings beyond that are north and south arcs only. ")
+            "Grey band: 70-100 km background ring; the 2° x 2° box reaches only about 60-75 km east/west, so rings beyond that are north and south arcs only. ")
     out12.with_suffix(".md").write_text(base + f"Top: {name} in the 12 K CTT ranges, solid = source, dashed = its random control (150-200 km away). "
                                         f"Bottom: {dlab.replace('[pp]', 'in percentage points').replace('[%]', 'in %')} (the site's own 70-100 km value).\n")
-    out3.with_suffix(".md").write_text(base + f"One panel per site: {dlab.replace('[pp]', 'in percentage points').replace('[%]', 'in %')}, one line per native 3 K CTT bin from -1.5 degC (yellow) to -34.5 degC (dark).\n")
+    out3.with_suffix(".md").write_text(base + f"One panel per site: {dlab.replace('[pp]', 'in percentage points').replace('[%]', 'in %')}, one line per native 3 K CTT bin from -1.5 °C (yellow) to -34.5 °C (dark).\n")
     return [out12, out12.with_suffix(".md"), out3, out3.with_suffix(".md")]
 
 

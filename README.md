@@ -39,6 +39,19 @@ default `--seasons DJF MAM`):
 python -m itf.plot_itf_maps --root data --box moscow --year 1982-2016 --months year --lanes cci --out-dir figs/cci_1982-2016
 ```
 
+ITF versus distance from the site centre, Cloud_cci 1982-2016, 5 km rings. One panel per box, one line per 3 K
+CTT bin from -1.5 °C (yellow) to -34.5 °C (dark), each minus its own 70-100 km value (grey band), in percentage
+points.
+
+![ITF versus distance](summary_cci_figures/itf_distance_3K_1982-2016_cci.png)
+
+Created with (writes `figs/cci_1982-2016/itf_distance_3K_1982-2016_cci.png`, plus occurrence, COT and 12 K versions
+and `itf_distance_1982-2016_cci.csv`):
+
+```bash
+python -m itf.plot_itf_distance --root data --lane cci --year 1982-2016 --out-dir figs/cci_1982-2016
+```
+
 ## Layout
 
 ```
@@ -114,6 +127,7 @@ OUT_ROOT/<lane>/<site>/<a>-<b>.nc, <a>-<b>/MM.nc   multi-year pools (itf_pool.py
 OUT_ROOT/modis/index/YYYY/DDD.json           granule index of the MODIS lanes
 figs/<dir>/itf_change_<site>_<year>_<lanes>.{png,md,csv}, itf_profile_<site>_<year>_<lane>.csv,
            itf_change_sites_<year>_<lane>[_season].{png,md}, itf_maps_<site>_<year>_<lanes>.{png,md}
+figs/<dir>/<var>_distance_{12K,3K}_<year>_<lane>.{png,md}, itf_distance_<year>_<lane>.csv   (plot_itf_distance.py)
 ```
 
 The CTT axis `cosp_ht` holds the 40 bin centres (-91.5 ... 25.5 degC) with bounds `ctt_bnds` in K.
